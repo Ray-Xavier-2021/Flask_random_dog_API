@@ -1,5 +1,5 @@
 {% from 'components.html' import card with context %}
-<link rel="stylesheet" href="{{ url_for('static' filename='css/styles.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 
 {% if not session['user'] %}
 <div class='login-title'>Enter your name 👇</div>
