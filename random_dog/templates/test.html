@@ -1,6 +1,9 @@
 {% from 'components.html' import card with context %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
-
+<!-- 
+  CONDITIONAL RENDERING:
+  Only show if there is no active user
+-->
 <div class='login-title'>Enter your name 👇</div>
 <form action='/' method='POST'>
   <div class='login-form'>
@@ -9,16 +12,20 @@
   </div>
 </form>
 
+<!-- 
+  CONDITIONAL RENDERING:
+  Only show if there is a active user
+-->
 <div class='wrapper'>
   <div class='header'>
     <div>
       {{ card(emoji='🐶', data=dogs_generated, title='Total Dogs')}}
-      {{ card(emoji='💁', title='Username')}}
-      {{ card(emoji='🔑', title='# of Logins')}}
-      {{ card(emoji='🐕', title='Dogs You Generated')}}
+      {{ card(emoji='💁', data=session['user'], title='Username')}}
+      {{ card(emoji='🔑', data=user['logins'], title='# of Logins')}}
+      {{ card(emoji='🐕', data=0, title='Dogs You Generated')}}
     </div>
     <div id='dog'>
-      <img src='{{ dog }}' width='200' height='200' style="border-radius: 10%;">
+      <img src='{{ dog_image }}' width='200' height='200' style="border-radius: 10%;">
     </div>
   </div>
 
