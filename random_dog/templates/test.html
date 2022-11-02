@@ -4,6 +4,7 @@
   CONDITIONAL RENDERING:
   Only show if there is no active user
 -->
+{% if not session['user'] %}
 <div class='login-title'>Enter your name 👇</div>
 <form action='/' method='POST'>
   <div class='login-form'>
@@ -11,18 +12,19 @@
     <button type="submit">Login / Sign up</button>
   </div>
 </form>
-
+{% endif %}
 <!-- 
   CONDITIONAL RENDERING:
   Only show if there is a active user
 -->
+{% if session['user'] %}
 <div class='wrapper'>
   <div class='header'>
     <div>
       {{ card(emoji='🐶', data=dogs_generated, title='Total Dogs')}}
       {{ card(emoji='💁', data=session['user'], title='Username')}}
       {{ card(emoji='🔑', data=user['logins'], title='# of Logins')}}
-      {{ card(emoji='🐕', data=0, title='Dogs You Generated')}}
+      {{ card(emoji='🐕', data=user['dogs_generated'], title='Dogs You Generated')}}
     </div>
     <div id='dog'>
       <img src='{{ dog_image }}' width='200' height='200' style="border-radius: 10%;">
@@ -88,3 +90,4 @@
 
   </table>
 </div>
+{% endif %}
