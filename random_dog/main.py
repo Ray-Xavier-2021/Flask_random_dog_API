@@ -36,16 +36,6 @@ if 'users' not in db:
 #     'logins': 1,
 #     'dogs_generated': 5
 #   },
-#   {
-#     'user_name': 'Xavier',
-#     'logins': 3,
-#     'dogs_generated': 9
-#   },
-#   {
-#     'user_name': 'Mystery',
-#     'logins': 3,
-#     'dogs_generated': 6,
-#   }
 # ]
 
 
@@ -77,6 +67,7 @@ def home():
   return render_template('index.html',
   dogs_generated=db['total_dogs_generated'],
   dog_image=db['last_dog'],
+  users=enumerate(get_leaderboard(db['users'])),
   user=user)
 
 '''
@@ -116,6 +107,7 @@ def get_dog():
   return render_template('index.html',
    dog_image=dog_image,
    dogs_generated=db['total_dogs_generated'],
+   users=enumerate(get_leaderboard(db['users'])),
    user=user)
 
 '''
@@ -169,12 +161,25 @@ def create_or_update_user(user_name):
   # Return user
   return user
   
+
 '''
 Get user from database function
 '''
 def get_user_from_database(user_name):
   user = [user for user in db['users'] if user['user_name'] == user_name]
   return user[0] if user else None
+
+
+'''
+Create get leaderboard function w/ users as parameters
+That returns the user in the lead base sorted by dogs generated
+'''
+def get_leaderboard(users):
+  return sorted(db['users'], key=lambda user: user['dogs_generated'], reverse=True)
+
+@app.template_filter()
+def trophy_first_place(index):
+  return '1 🏆' if index == 0 else index + 1 
 
 if __name__ == "__main__":
 

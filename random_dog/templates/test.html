@@ -52,42 +52,18 @@
         </tr>
       </div>
     </th>
-    <tr>
-      <!-- Insert the index. Add a trophy if the index is 1 -->
-      <td>2</td>
-      <!-- Insert Username -->
-      <td>Qazi</td>
-      <!-- Insert Number of Dogs Generated -->
-      <td>12</td>
-      <!-- Insert Number of Logins -->
-      <td>1</td>
-    </tr>
-
-    <tr>
-      <td>2</td>
-      <td>Kevin</td>
-      <td>10</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Amaanath</td>
-      <td>8</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Lance</td>
-      <td>7</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>David</td>
-      <td>3</td>
-      <td>2</td>
-    </tr>
-
+    {% for index, user in users %}
+      <tr>
+        <!-- Insert the index. Add a trophy if the index is 1 -->
+        <td>{{ index | trophy_first_place }}</td>
+        <!-- Insert Username -->
+        <td>{{ user['user_name'] }}</td>
+        <!-- Insert Number of Dogs Generated -->
+        <td>{{ user['dogs_generated'] }}</td>
+        <!-- Insert Number of Logins -->
+        <td>{{ user['logins'] }}</td>
+      </tr>
+    {% endfor %}
   </table>
 </div>
 {% endif %}

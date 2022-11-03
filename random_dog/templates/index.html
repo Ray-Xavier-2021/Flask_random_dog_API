@@ -2,87 +2,63 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 
 {% if not session['user'] %}
-<div class='login-title'>Enter your name 👇</div>
-<form action='/' method='POST'>
-  <div class='login-form'>
-    <input type="text" name="user_name" placeholder='Username'>
-    <button type="submit">Login / Sign up</button>
-  </div>
-</form>
+  <div class='login-title'>Enter your name 👇</div>
+  <form action='/' method='POST'>
+    <div class='login-form'>
+      <input type="text" name="user_name" placeholder='Username'>
+      <button type="submit">Login / Sign up</button>
+    </div>
+  </form>
 {% endif %}
 
 {% if session['user'] %}
-<div class='wrapper'>
-  <div class='header'>
-    <div>
-      {{ card(emoji='🐶', data=dogs_generated, title='Total Dogs')}}
-      {{ card(emoji='💁', data=session['user'], title='Username')}}
-      {{ card(emoji='🔑', data=user['logins'], title='# of Logins')}}
-      {{ card(emoji='🐕', data=user['dogs_generated'], title='Dogs You Generated')}}
-    </div>
-    <div id='dog'>
-      <!-- <img src='' width='200' height='200' style="border-radius: 10%;"> -->
-      <img src='{{ dog_image }}' width='200' height='200' style="border-radius: 10%;">
-    </div>
-  </div>
-
-  <div class='buttonsContainer'>
-    <form action="/get_dog" method='GET'>
-      <button>Get Random Dog</button>
-    </form>
-
-    <form action='/logout'>
-      <button>Logout</button>
-    </form>
-  </div>
-
-  <table class="leaderboard">
-    <th>
-      <div class='titles'>
-        <tr>
-          <td>Place</td>
-          <td>Name</td>
-          <td>Dogs Generated 🌟</td>
-          <td>Logins</td>
-        </tr>
+  <div class='wrapper'>
+    <div class='header'>
+      <div>
+        {{ card(emoji='🐶', data=dogs_generated, title='Total Dogs')}}
+        {{ card(emoji='💁', data=session['user'], title='Username')}}
+        {{ card(emoji='🔑', data=user['logins'], title='# of Logins')}}
+        {{ card(emoji='🐕', data=user['dogs_generated'], title='Dogs You Generated')}}
       </div>
-    </th>
-    <tr>
-      <!-- Insert the index. Add a trophy if the index is 1 -->
-      <td>2</td>
-      <!-- Insert Username -->
-      <td>Qazi</td>
-      <!-- Insert Number of Dogs Generated -->
-      <td>12</td>
-      <!-- Insert Number of Logins -->
-      <td>1</td>
-    </tr>
+      <div id='dog'>
+        <!-- <img src='' width='200' height='200' style="border-radius: 10%;"> -->
+        <img src='{{ dog_image }}' width='200' height='200' style="border-radius: 10%;">
+      </div>
+    </div>
 
-    <tr>
-      <td>2</td>
-      <td>Kevin</td>
-      <td>10</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Amaanath</td>
-      <td>8</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Lance</td>
-      <td>7</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>David</td>
-      <td>3</td>
-      <td>2</td>
-    </tr>
+    <div class='buttonsContainer'>
+      <form action="/get_dog" method='GET'>
+        <button>Get Random Dog</button>
+      </form>
 
-  </table>
-</div>
+      <form action='/logout'>
+        <button>Logout</button>
+      </form>
+    </div>
+
+    <table class="leaderboard">
+      <th>
+        <div class='titles'>
+          <tr>
+            <td>Place</td>
+            <td>Name</td>
+            <td>Dogs Generated 🌟</td>
+            <td>Logins</td>
+          </tr>
+        </div>
+      </th>
+      {% for index, user in users %}
+        <tr>
+          <!-- Insert the index. Add a trophy if the index is 1 -->
+          <td>{{ index | trophy_first_place }}</td>
+          <!-- Insert Username -->
+          <td>{{ user['user_name'] }}</td>
+          <!-- Insert Number of Dogs Generated -->
+          <td>{{ user['dogs_generated'] }}</td>
+          <!-- Insert Number of Logins -->
+          <td>{{ user['logins'] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
 {% endif %}

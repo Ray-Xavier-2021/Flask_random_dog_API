@@ -13,6 +13,7 @@ This project was built by me using Python, API and Flask. It will be added to my
 - Python
 - Flask
 - API
+- Database
 
 ## Installation
 No need to install any software.

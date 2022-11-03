@@ -25,9 +25,10 @@ def home():
   else:
     user = None
 
-  return render_template('index.html',
+  return render_template('test.html',
   dogs_generated=db['total_dogs_generated'],
   dog_image=db['last_dog'],
+  users=enumerate(get_leaderboard(db['users'])),
   user=user)
 
 
@@ -43,9 +44,10 @@ def get_dog():
     db['total_dogs_generated'] += 1
     user['dogs_generated'] += 1
 
-  return render_template('index.html',
+  return render_template('test.html',
    dog_image=dog_image,
    dogs_generated=db['total_dogs_generated'],
+   users=enumerate(get_leaderboard(db['users'])),
    user=user)
 
 
@@ -53,7 +55,7 @@ def get_dog():
 def logout():
   session['user'] = None
 
-  return render_template('index.html',
+  return render_template('test.html',
   dogs_generated=db['total_dogs_generated'])
 
 
@@ -77,11 +79,19 @@ def create_or_update_user(user_name):
 
   return user
   
-  
+
 def get_user_from_database(user_name):
   user = [user for user in db['users'] if user['user_name'] == user_name]
   return user[0] if user else None
 
 
+def get_leaderboard(users):
+  return sorted(db['users'], key=lambda user: user['dogs_generated'], reverse=True)
+
+@app.template_filter()
+def trophy_first_place(index):
+  return '1 🏆' if index == 0 else index + 1 
+
+  
 if __name__ == "__main__":
   app.run(debug=True)
